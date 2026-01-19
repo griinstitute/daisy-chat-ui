@@ -45,6 +45,7 @@ import {
   ArtifactTitle,
   useArtifactContext,
 } from "./artifact";
+import { GRILogoSVG } from "../icons/gri-logo";
 
 function StickyToBottomContent(props: {
   content: ReactNode;
@@ -87,33 +88,11 @@ function ScrollToBottom(props: { className?: string }) {
   );
 }
 
-function OpenGitHubRepo() {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <a
-            href="https://github.com/langchain-ai/agent-chat-ui"
-            target="_blank"
-            className="flex items-center justify-center"
-          >
-            <GitHubSVG
-              width="24"
-              height="24"
-            />
-          </a>
-        </TooltipTrigger>
-        <TooltipContent side="left">
-          <p>Open GitHub repo</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-}
-
 export function Thread() {
   const [artifactContext, setArtifactContext] = useArtifactContext();
   const [artifactOpen, closeArtifact] = useArtifactOpen();
+
+  const [userId] = useQueryState("userId");
 
   const [threadId, _setThreadId] = useQueryState("threadId");
   const [chatHistoryOpen, setChatHistoryOpen] = useQueryState(
@@ -217,6 +196,9 @@ export function Thread() {
     stream.submit(
       { messages: [...toolMessages, newHumanMessage], context },
       {
+        metadata: {
+          user_id: userId,
+        },
         streamMode: ["values"],
         streamSubgraphs: true,
         streamResumable: true,
@@ -325,9 +307,6 @@ export function Thread() {
                   </Button>
                 )}
               </div>
-              <div className="absolute top-2 right-4 flex items-center">
-                <OpenGitHubRepo />
-              </div>
             </div>
           )}
           {chatStarted && (
@@ -360,20 +339,13 @@ export function Thread() {
                     damping: 30,
                   }}
                 >
-                  <LangGraphLogoSVG
-                    width={32}
-                    height={32}
-                  />
-                  <span className="text-xl font-semibold tracking-tight">
-                    Agent Chat
+                  <span className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
+                    dAIsy
                   </span>
                 </motion.button>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <OpenGitHubRepo />
-                </div>
                 <TooltipIconButton
                   size="lg"
                   className="p-4"
@@ -435,10 +407,14 @@ export function Thread() {
               footer={
                 <div className="sticky bottom-0 flex flex-col items-center gap-8 bg-white">
                   {!chatStarted && (
-                    <div className="flex items-center gap-3">
-                      <LangGraphLogoSVG className="h-8 flex-shrink-0" />
-                      <h1 className="text-2xl font-semibold tracking-tight">
-                        Agent Chat
+                    <div className="flex items-center gap-5">
+                      {/* <LangGraphLogoSVG className="h-8 flex-shrink-0" /> */}
+                      <GRILogoSVG
+                        width={112}
+                        height={25}
+                      />
+                      <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
+                        dAIsy
                       </h1>
                     </div>
                   )}
