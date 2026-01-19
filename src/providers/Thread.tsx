@@ -41,6 +41,7 @@ export function ThreadProvider({ children }: { children: ReactNode }) {
   const envAssistantId: string | undefined =
     process.env.NEXT_PUBLIC_ASSISTANT_ID;
 
+  const [token] = useQueryState("token");
   const [apiUrl] = useQueryState("apiUrl", { defaultValue: envApiUrl || "" });
   const [assistantId] = useQueryState("assistantId", {
     defaultValue: envAssistantId || "",
@@ -50,10 +51,12 @@ export function ThreadProvider({ children }: { children: ReactNode }) {
   const [threadsLoading, setThreadsLoading] = useState(false);
 
   const getThreads = useCallback(async (): Promise<Thread[]> => {
-    console.log("threads P", apiUrl, assistantId);
     if (!apiUrl || !assistantId) return [];
-    const client = createClient(apiUrl, getApiKey() ?? undefined);
-    console.log("threads", getThreadSearchMetadata(assistantId, userId));
+    const client = createClient(
+      apiUrl,
+      getApiKey() ?? undefined,
+      token ?? undefined,
+    );
 
     const threads = await client.threads.search({
       metadata: {

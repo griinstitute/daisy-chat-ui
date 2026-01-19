@@ -78,6 +78,7 @@ const StreamSession = ({
   assistantId: string;
 }) => {
   const [threadId, setThreadId] = useQueryState("threadId");
+  const [token] = useQueryState("token");
   const { getThreads, setThreads } = useThreads();
   const streamValue = useTypedStream({
     apiUrl,
@@ -85,6 +86,10 @@ const StreamSession = ({
     assistantId,
     threadId: threadId ?? null,
     fetchStateHistory: true,
+    defaultHeaders: {
+      Authorization: `Bearer ${token}`,
+      "x-custom-header": "custom_header_value",
+    },
     onCustomEvent: (event, options) => {
       if (isUIMessage(event) || isRemoveUIMessage(event)) {
         options.mutate((prev) => {
