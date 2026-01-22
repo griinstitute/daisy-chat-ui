@@ -64,7 +64,7 @@ const defaultComponents: any = {
   h1: ({ className, ...props }: { className?: string }) => (
     <h1
       className={cn(
-        "mb-6 scroll-m-20 text-2xl font-extrabold tracking-tight last:mb-0",
+        "mb-8 scroll-m-20 text-3xl tracking-tight last:mb-0",
         className,
       )}
       {...props}
@@ -73,7 +73,7 @@ const defaultComponents: any = {
   h2: ({ className, ...props }: { className?: string }) => (
     <h2
       className={cn(
-        "mt-6 mb-3 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0 last:mb-0",
+        "mt-8 mb-4 scroll-m-20 text-2xl tracking-tight first:mt-0 last:mb-0",
         className,
       )}
       {...props}
@@ -82,7 +82,7 @@ const defaultComponents: any = {
   h3: ({ className, ...props }: { className?: string }) => (
     <h3
       className={cn(
-        "mt-4 mb-3 scroll-m-20 text-lg font-semibold tracking-tight first:mt-0 last:mb-0",
+        "mt-6 mb-4 scroll-m-20 text-xl tracking-tight first:mt-0 last:mb-0",
         className,
       )}
       {...props}
@@ -91,7 +91,7 @@ const defaultComponents: any = {
   h4: ({ className, ...props }: { className?: string }) => (
     <h4
       className={cn(
-        "mt-4 mb-3 scroll-m-20 text-base font-semibold tracking-tight first:mt-0 last:mb-0",
+        "mt-6 mb-4 scroll-m-20 text-lg tracking-tight first:mt-0 last:mb-0",
         className,
       )}
       {...props}
@@ -99,28 +99,19 @@ const defaultComponents: any = {
   ),
   h5: ({ className, ...props }: { className?: string }) => (
     <h5
-      className={cn(
-        "my-3 text-sm font-semibold first:mt-0 last:mb-0",
-        className,
-      )}
+      className={cn("my-4 first:mt-0 last:mb-0", className)}
       {...props}
     />
   ),
   h6: ({ className, ...props }: { className?: string }) => (
     <h6
-      className={cn(
-        "my-3 text-sm font-semibold first:mt-0 last:mb-0",
-        className,
-      )}
+      className={cn("my-4 first:mt-0 last:mb-0", className)}
       {...props}
     />
   ),
   p: ({ className, ...props }: { className?: string }) => (
     <p
-      className={cn(
-        "mt-4 mb-4 text-sm leading-6 first:mt-0 last:mb-0",
-        className,
-      )}
+      className={cn("mt-5 mb-5 leading-6 first:mt-0 last:mb-0", className)}
       {...props}
     />
   ),
@@ -130,12 +121,6 @@ const defaultComponents: any = {
         "text-primary font-medium underline underline-offset-4",
         className,
       )}
-      {...props}
-    />
-  ),
-  strong: ({ className, ...props }: { className?: string }) => (
-    <strong
-      className={cn("font-semibold", className)}
       {...props}
     />
   ),
@@ -166,7 +151,7 @@ const defaultComponents: any = {
   table: ({ className, ...props }: { className?: string }) => (
     <table
       className={cn(
-        "my-5 w-full border-separate border-spacing-0 overflow-y-auto text-sm",
+        "my-5 w-full border-separate border-spacing-0 overflow-y-auto",
         className,
       )}
       {...props}
@@ -175,7 +160,7 @@ const defaultComponents: any = {
   th: ({ className, ...props }: { className?: string }) => (
     <th
       className={cn(
-        "bg-muted px-4 py-2 text-left font-semibold first:rounded-tl-lg last:rounded-tr-lg [&[align=center]]:text-center [&[align=right]]:text-right",
+        "bg-muted px-4 py-2 text-left font-bold first:rounded-tl-lg last:rounded-tr-lg [&[align=center]]:text-center [&[align=right]]:text-right",
         className,
       )}
       {...props}
