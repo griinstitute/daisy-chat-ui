@@ -12,7 +12,7 @@ import {
   DO_NOT_RENDER_ID_PREFIX,
   ensureToolCallsHaveResponses,
 } from "@/lib/ensure-tool-responses";
-import { LangGraphLogoSVG } from "../icons/langgraph";
+import { detectSubgraphInfo } from "@/lib/subagent-filter";
 import { TooltipIconButton } from "./tooltip-icon-button";
 import {
   ArrowDown,
@@ -372,7 +372,20 @@ export function Thread() {
               content={
                 <>
                   {messages
-                    .filter((m) => !m.id?.startsWith(DO_NOT_RENDER_ID_PREFIX))
+                    .filter((m) => {
+                      if (m.id?.startsWith(DO_NOT_RENDER_ID_PREFIX))
+                        return false;
+
+                      const isLastMessage =
+                        stream.messages[stream.messages.length - 1].id ===
+                        m?.id;
+
+                      const metadata = stream.getMessagesMetadata(m);
+                      const { isSubgraph } = detectSubgraphInfo(metadata);
+                      const shouldHide = isLastMessage && isSubgraph;
+
+                      return !shouldHide;
+                    })
                     .map((message, index) =>
                       message.type === "human" ? (
                         <HumanMessage
