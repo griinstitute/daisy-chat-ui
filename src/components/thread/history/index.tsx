@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useThreads } from "@/providers/Thread";
 import { Thread } from "@langchain/langgraph-sdk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { getContentString } from "../utils";
 import { useQueryState, parseAsBoolean } from "nuqs";
@@ -12,15 +12,27 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PanelRightOpen, PanelRightClose } from "lucide-react";
+import {
+  PanelRightOpen,
+  PanelRightClose,
+  Trash2,
+  LoaderCircle,
+} from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { createClient } from "@/providers/client";
+import { getApiKey } from "@/lib/api-key";
+import { toast } from "sonner";
 
 function ThreadList({
   threads,
   onThreadClick,
+  onDeleteThread,
+  deletingThreadId,
 }: {
   threads: Thread[];
   onThreadClick?: (threadId: string) => void;
+  onDeleteThread?: (threadId: string) => void;
+  deletingThreadId?: string | null;
 }) {
   const [threadId, setThreadId] = useQueryState("threadId");
 
@@ -41,7 +53,7 @@ function ThreadList({
         return (
           <div
             key={t.thread_id}
-            className="w-full px-1"
+            className="flex w-full justify-between px-1"
           >
             <Button
               variant="ghost"
@@ -54,6 +66,23 @@ function ThreadList({
               }}
             >
               <p className="truncate text-ellipsis">{itemText}</p>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="hover:text-destructive"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDeleteThread?.(t.thread_id);
+              }}
+              disabled={deletingThreadId === t.thread_id}
+            >
+              {deletingThreadId === t.thread_id ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
             </Button>
           </div>
         );
@@ -76,6 +105,8 @@ function ThreadHistoryLoading() {
 }
 
 export default function ThreadHistory() {
+  const envApiUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
+
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
   const [chatHistoryOpen, setChatHistoryOpen] = useQueryState(
     "chatHistoryOpen",
@@ -84,6 +115,46 @@ export default function ThreadHistory() {
 
   const { getThreads, threads, setThreads, threadsLoading, setThreadsLoading } =
     useThreads();
+
+  const [threadId, setThreadId] = useQueryState("threadId");
+  const [apiUrl] = useQueryState("apiUrl", { defaultValue: envApiUrl || "" });
+  const [token] = useQueryState("token");
+  const [deletingThreadId, setDeletingThreadId] = useState<string | null>(null);
+
+  const handleDeleteThread = async (threadIdToDelete: string) => {
+    if (!apiUrl) {
+      toast.error("Fail on thread delete", {
+        description: "API url not set",
+      });
+      return;
+    }
+
+    setDeletingThreadId(threadIdToDelete);
+
+    try {
+      const client = createClient(
+        apiUrl,
+        getApiKey() ?? undefined,
+        token ?? undefined,
+      );
+
+      await client.threads.delete(threadIdToDelete);
+
+      if (threadIdToDelete === threadId) {
+        setThreadId(null);
+      }
+
+      setThreads((prev) =>
+        prev.filter((t) => t.thread_id !== threadIdToDelete),
+      );
+    } catch (error: any) {
+      toast.error("Falha ao deletar thread", {
+        description: error.message || "Erro desconhecido",
+      });
+    } finally {
+      setDeletingThreadId(null);
+    }
+  };
 
   useEffect(() => {
     console.log("b");
@@ -118,7 +189,11 @@ export default function ThreadHistory() {
         {threadsLoading ? (
           <ThreadHistoryLoading />
         ) : (
-          <ThreadList threads={threads} />
+          <ThreadList
+            threads={threads}
+            onDeleteThread={handleDeleteThread}
+            deletingThreadId={deletingThreadId}
+          />
         )}
       </div>
       <div className="lg:hidden">
@@ -139,6 +214,8 @@ export default function ThreadHistory() {
             <ThreadList
               threads={threads}
               onThreadClick={() => setChatHistoryOpen((o) => !o)}
+              onDeleteThread={handleDeleteThread}
+              deletingThreadId={deletingThreadId}
             />
           </SheetContent>
         </Sheet>
