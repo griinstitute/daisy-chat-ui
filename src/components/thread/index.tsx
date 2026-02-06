@@ -200,7 +200,7 @@ export function Thread() {
           user_id: userId,
         },
         streamMode: ["values"],
-        streamSubgraphs: true,
+        streamSubgraphs: false,
         streamResumable: true,
         optimisticValues: (prev) => ({
           ...prev,
@@ -227,7 +227,7 @@ export function Thread() {
     stream.submit(undefined, {
       checkpoint: parentCheckpoint,
       streamMode: ["values"],
-      streamSubgraphs: true,
+      streamSubgraphs: false,
       streamResumable: true,
     });
   };
