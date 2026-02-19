@@ -370,7 +370,10 @@ export function Thread() {
                 !chatStarted && "mt-[20vh] flex flex-col items-stretch",
                 chatStarted && "grid grid-rows-[1fr_auto]",
               )}
-              contentClassName="pt-8 pb-16 max-w-3xl mx-auto flex flex-col gap-4 w-full text-sm"
+              contentClassName={cn(
+                "max-w-3xl mx-auto flex flex-col gap-4 w-full text-sm",
+                chatStarted && "pt-8 pb-16"
+              )}
               content={
                 <>
                   {messages
