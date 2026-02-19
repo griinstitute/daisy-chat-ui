@@ -109,15 +109,15 @@ export function SuggestedPrompts({
               onMouseLeave={() => onHoverPrompt?.(null)}
               className={
                 isHighlighted
-                  ? "col-span-full mx-auto flex max-w-sm items-center gap-2 rounded-xl border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50 px-2 py-1 text-left shadow-md transition-all hover:border-blue-200 hover:shadow-lg"
-                  : "flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-2 py-1 text-left shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
+                  ? "col-span-full mx-auto flex max-w-sm items-center gap-2 rounded-sm border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50 px-2 py-1 text-left shadow-md transition-all hover:border-blue-200 hover:shadow-lg"
+                  : "flex items-center gap-2 rounded-sm border border-gray-200 bg-white px-2 py-1 text-left shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
               }
             >
               <div
                 className={
                   isHighlighted
-                    ? "flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 p-2"
-                    : "flex-shrink-0 rounded-lg bg-gray-100 p-1"
+                    ? "flex-shrink-0 rounded-sm bg-gradient-to-br from-blue-500 to-purple-500 p-2"
+                    : "flex-shrink-0 rounded-sm bg-gray-100 p-1"
                 }
               >
                 <Icon
