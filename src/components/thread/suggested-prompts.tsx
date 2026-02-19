@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import {
-  MessageSquare,
   Mail,
   Search,
   FileText,
@@ -88,7 +87,10 @@ interface SuggestedPromptsProps {
   onHoverPrompt?: (prompt: string | null) => void;
 }
 
-export function SuggestedPrompts({ onSelectPrompt, onHoverPrompt }: SuggestedPromptsProps) {
+export function SuggestedPrompts({
+  onSelectPrompt,
+  onHoverPrompt,
+}: SuggestedPromptsProps) {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pb-8">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
