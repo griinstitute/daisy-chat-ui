@@ -46,6 +46,7 @@ import {
   useArtifactContext,
 } from "./artifact";
 import { GRILogoSVG } from "../icons/gri-logo";
+import { SuggestedPrompts } from "./suggested-prompts";
 
 function StickyToBottomContent(props: {
   content: ReactNode;
@@ -104,6 +105,7 @@ export function Thread() {
     parseAsBoolean.withDefault(false),
   );
   const [input, setInput] = useState("");
+  const [hoveredPrompt, setHoveredPrompt] = useState<string | null>(null);
   const {
     contentBlocks,
     setContentBlocks,
@@ -365,7 +367,7 @@ export function Thread() {
             <StickyToBottomContent
               className={cn(
                 "absolute inset-0 overflow-y-scroll px-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent",
-                !chatStarted && "mt-[25vh] flex flex-col items-stretch",
+                !chatStarted && "mt-[20vh] flex flex-col items-stretch",
                 chatStarted && "grid grid-rows-[1fr_auto]",
               )}
               contentClassName="pt-8 pb-16 max-w-3xl mx-auto flex flex-col gap-4 w-full text-sm"
@@ -420,16 +422,22 @@ export function Thread() {
               footer={
                 <div className="sticky bottom-0 flex flex-col items-center gap-8 bg-white">
                   {!chatStarted && (
-                    <div className="flex items-center gap-5">
-                      {/* <LangGraphLogoSVG className="h-8 flex-shrink-0" /> */}
-                      <GRILogoSVG
-                        width={112}
-                        height={25}
+                    <>
+                      <div className="flex items-center gap-5">
+                        {/* <LangGraphLogoSVG className="h-8 flex-shrink-0" /> */}
+                        <GRILogoSVG
+                          width={112}
+                          height={25}
+                        />
+                        <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
+                          dAIsy
+                        </h1>
+                      </div>
+                      <SuggestedPrompts
+                        onSelectPrompt={(prompt) => setInput(prompt)}
+                        onHoverPrompt={(prompt) => setHoveredPrompt(prompt)}
                       />
-                      <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
-                        dAIsy
-                      </h1>
-                    </div>
+                    </>
                   )}
 
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
@@ -468,7 +476,7 @@ export function Thread() {
                             form?.requestSubmit();
                           }
                         }}
-                        placeholder="Type your message..."
+                        placeholder={hoveredPrompt || "Type your message..."}
                         className="field-sizing-content resize-none border-none bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
@@ -488,7 +496,7 @@ export function Thread() {
                             </Label>
                           </div>
                         </div>
-                        <Label
+                        {/*<Label
                           htmlFor="file-input"
                           className="flex cursor-pointer items-center gap-2"
                         >
@@ -504,7 +512,7 @@ export function Thread() {
                           multiple
                           accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
                           className="hidden"
-                        />
+                        />*/}
                         {stream.isLoading ? (
                           <Button
                             key="stop"

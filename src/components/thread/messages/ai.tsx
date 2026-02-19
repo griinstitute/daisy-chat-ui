@@ -114,6 +114,10 @@ export function AssistantMessage({
     parseAsBoolean.withDefault(false),
   );
 
+  // Read from environment variable, default to true (hide results)
+  const hideToolResults =
+    process.env.NEXT_PUBLIC_HIDE_TOOL_RESULTS === 'false' ? false : true;
+
   const thread = useStreamContext();
   const isLastMessage =
     thread.messages[thread.messages.length - 1].id === message?.id;
@@ -141,7 +145,7 @@ export function AssistantMessage({
   const hasAnthropicToolCalls = !!anthropicStreamedToolCalls?.length;
   const isToolResult = message?.type === "tool";
 
-  if (isToolResult && hideToolCalls) {
+  if (isToolResult && (hideToolCalls || hideToolResults)) {
     return null;
   }
 
@@ -168,13 +172,22 @@ export function AssistantMessage({
             {!hideToolCalls && (
               <>
                 {(hasToolCalls && toolCallsHaveContents && (
-                  <ToolCalls toolCalls={message.tool_calls} />
+                  <ToolCalls
+                    toolCalls={message.tool_calls}
+                    isLoading={isLoading && isLastMessage}
+                  />
                 )) ||
                   (hasAnthropicToolCalls && (
-                    <ToolCalls toolCalls={anthropicStreamedToolCalls} />
+                    <ToolCalls
+                      toolCalls={anthropicStreamedToolCalls}
+                      isLoading={isLoading && isLastMessage}
+                    />
                   )) ||
                   (hasToolCalls && (
-                    <ToolCalls toolCalls={message.tool_calls} />
+                    <ToolCalls
+                      toolCalls={message.tool_calls}
+                      isLoading={isLoading && isLastMessage}
+                    />
                   ))}
               </>
             )}

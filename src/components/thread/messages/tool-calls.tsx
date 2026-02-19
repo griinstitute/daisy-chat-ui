@@ -1,7 +1,7 @@
 import { AIMessage, ToolMessage } from "@langchain/langgraph-sdk";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, LoaderCircle } from "lucide-react";
 
 function isComplexValue(value: any): boolean {
   return Array.isArray(value) || (typeof value === "object" && value !== null);
@@ -9,8 +9,10 @@ function isComplexValue(value: any): boolean {
 
 export function ToolCalls({
   toolCalls,
+  isLoading = false,
 }: {
   toolCalls: AIMessage["tool_calls"];
+  isLoading?: boolean;
 }) {
   if (!toolCalls || toolCalls.length === 0) return null;
 
@@ -25,14 +27,25 @@ export function ToolCalls({
             className="overflow-hidden rounded-lg border border-gray-200"
           >
             <div className="border-b border-gray-200 bg-gray-50 px-4 py-2">
-              <h3 className="font-medium text-gray-900">
-                {tc.name}
-                {tc.id && (
-                  <code className="ml-2 rounded bg-gray-100 px-2 py-1 text-sm">
-                    {tc.id}
-                  </code>
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium text-gray-900">
+                  {tc.name}
+                  {tc.id && (
+                    <code className="ml-2 rounded bg-gray-100 px-2 py-1 text-sm">
+                      {tc.id}
+                    </code>
+                  )}
+                </h3>
+                {isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <LoaderCircle className="h-4 w-4 animate-spin text-black" />
+                  </motion.div>
                 )}
-              </h3>
+              </div>
             </div>
             {hasArgs ? (
               <table className="min-w-full divide-y divide-gray-200">
