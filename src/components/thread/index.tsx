@@ -453,7 +453,7 @@ export function Thread() {
                   >
                     <form
                       onSubmit={handleSubmit}
-                      className="mx-auto grid max-w-3xl grid-rows-[1fr_auto] gap-2 text-sm"
+                      className="mx-auto grid max-w-3xl grid-rows-[1fr_auto] text-sm"
                     >
                       <ContentBlocksPreview
                         blocks={contentBlocks}
@@ -480,7 +480,7 @@ export function Thread() {
                         className="field-sizing-content resize-none border-none bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
-                      <div className="flex items-center gap-6 p-2 pt-4">
+                      <div className="flex items-center gap-6 p-2 pt-2">
                         <div>
                           <div className="flex items-center space-x-2">
                             <Switch
@@ -490,7 +490,7 @@ export function Thread() {
                             />
                             <Label
                               htmlFor="render-tool-calls"
-                              className="text-sm text-gray-600"
+                              className="text-xs text-gray-600"
                             >
                               Hide Tool Calls
                             </Label>

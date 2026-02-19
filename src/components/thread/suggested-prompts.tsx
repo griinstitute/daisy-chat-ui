@@ -92,7 +92,7 @@ export function SuggestedPrompts({
   onHoverPrompt,
 }: SuggestedPromptsProps) {
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 pb-8">
+    <div className="mx-auto w-full max-w-3xl px-4 pb-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {suggestedPrompts.map((prompt, index) => {
           const Icon = prompt.icon;
@@ -109,33 +109,27 @@ export function SuggestedPrompts({
               onMouseLeave={() => onHoverPrompt?.(null)}
               className={
                 isHighlighted
-                  ? "col-span-full mx-auto flex max-w-sm items-center gap-3 rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 p-2 text-left shadow-md transition-all hover:border-blue-500 hover:shadow-lg"
-                  : "flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-2 text-left shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
+                  ? "col-span-full mx-auto flex max-w-sm items-center gap-2 rounded-xl border-2 border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50 px-2 py-1 text-left shadow-md transition-all hover:border-blue-200 hover:shadow-lg"
+                  : "flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-2 py-1 text-left shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
               }
             >
               <div
                 className={
                   isHighlighted
                     ? "flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 p-2"
-                    : "flex-shrink-0 rounded-lg bg-gray-100 p-2"
+                    : "flex-shrink-0 rounded-lg bg-gray-100 p-1"
                 }
               >
                 <Icon
                   className={
                     isHighlighted
-                      ? "h-5 w-5 text-white"
-                      : "h-5 w-5 text-gray-700"
+                      ? "h-4 w-4 text-white"
+                      : "h-4 w-4 text-gray-700"
                   }
                 />
               </div>
               <div className="flex-1">
-                <p
-                  className={
-                    isHighlighted
-                      ? "text-sm font-semibold text-gray-900"
-                      : "text-sm font-medium text-gray-900"
-                  }
-                >
+                <p className="text-sm font-medium text-gray-900">
                   {prompt.label}
                 </p>
               </div>
