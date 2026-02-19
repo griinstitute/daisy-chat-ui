@@ -372,7 +372,7 @@ export function Thread() {
               )}
               contentClassName={cn(
                 "max-w-3xl mx-auto flex flex-col gap-4 w-full text-sm",
-                chatStarted && "pt-8 pb-16"
+                chatStarted && "pt-8 pb-16",
               )}
               content={
                 <>
@@ -432,9 +432,14 @@ export function Thread() {
                           width={112}
                           height={25}
                         />
-                        <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
-                          dAIsy
-                        </h1>
+                        <div className="flex items-center gap-2">
+                          <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
+                            dAIsy
+                          </h1>
+                          <span className="p-2px-2 rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
+                            BETA
+                          </span>
+                        </div>
                       </div>
                       <SuggestedPrompts
                         onSelectPrompt={(prompt) => setInput(prompt)}
