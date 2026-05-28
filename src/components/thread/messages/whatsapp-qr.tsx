@@ -10,7 +10,11 @@ export function WhatsAppQR({ base64 = "" }: { base64?: string }) {
       {/* <p className="text-muted-foreground text-sm">
         Escaneie o QR Code abaixo com o WhatsApp para conectar:
       </p> */}
-      <img src={src} alt="WhatsApp QR Code" className="h-64 w-64" />
+      <img
+        src={src}
+        alt="WhatsApp QR Code"
+        className="h-64 w-64"
+      />
     </div>
   );
 }

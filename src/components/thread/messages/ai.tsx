@@ -122,7 +122,7 @@ export function AssistantMessage({
 
   // Read from environment variable, default to true (hide results)
   const hideToolResults =
-    process.env.NEXT_PUBLIC_HIDE_TOOL_RESULTS === 'false' ? false : true;
+    process.env.NEXT_PUBLIC_HIDE_TOOL_RESULTS === "false" ? false : true;
 
   const thread = useStreamContext();
   const isLastMessage =

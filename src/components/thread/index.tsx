@@ -243,7 +243,7 @@ export function Thread() {
     <div className="flex h-screen w-full overflow-hidden">
       <div className="relative hidden lg:flex">
         <motion.div
-          className="absolute z-20 h-full overflow-hidden border-r bg-white"
+          className="bg-sidebar absolute z-20 h-full overflow-hidden border-r"
           style={{ width: 300 }}
           animate={
             isLargeScreen
@@ -297,7 +297,7 @@ export function Thread() {
               <div>
                 {(!chatHistoryOpen || !isLargeScreen) && (
                   <Button
-                    className="hover:bg-gray-100"
+                    className="hover:bg-accent"
                     variant="ghost"
                     onClick={() => setChatHistoryOpen((p) => !p)}
                   >
@@ -317,7 +317,7 @@ export function Thread() {
                 <div className="absolute left-0 z-10">
                   {(!chatHistoryOpen || !isLargeScreen) && (
                     <Button
-                      className="hover:bg-gray-100"
+                      className="hover:bg-accent"
                       variant="ghost"
                       onClick={() => setChatHistoryOpen((p) => !p)}
                     >
@@ -341,8 +341,11 @@ export function Thread() {
                     damping: 30,
                   }}
                 >
-                  <span className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
-                    dAIsy
+                  <span className="flex items-center gap-2">
+                    <span className="bg-primary shadow-primary/60 size-1.5 rounded-full shadow-[0_0_8px]" />
+                    <span className="font-wordmark text-xs font-medium tracking-[0.05em] uppercase">
+                      Contact <span className="text-primary">Enricher</span>
+                    </span>
                   </span>
                 </motion.button>
               </div>
@@ -366,8 +369,8 @@ export function Thread() {
           <StickToBottom className="relative flex-1 overflow-hidden">
             <StickyToBottomContent
               className={cn(
-                "absolute inset-0 overflow-y-scroll px-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent",
-                !chatStarted && "mt-[20vh] flex flex-col items-stretch",
+                "scrollbar-themed absolute inset-0 overflow-y-scroll px-4",
+                !chatStarted && "mt-[3vh] flex flex-col items-stretch",
                 chatStarted && "grid grid-rows-[1fr_auto]",
               )}
               contentClassName={cn(
@@ -423,29 +426,29 @@ export function Thread() {
                 </>
               }
               footer={
-                <div className="sticky bottom-0 flex flex-col items-center gap-8 bg-white">
+                <div className="bg-background/80 sticky bottom-0 flex flex-col items-center gap-5 backdrop-blur-sm">
                   {!chatStarted && (
-                    <>
-                      <div className="flex items-center gap-5">
-                        {/* <LangGraphLogoSVG className="h-8 flex-shrink-0" /> */}
-                        <GRILogoSVG
-                          width={112}
-                          height={25}
-                        />
-                        <div className="flex items-center gap-2">
-                          <h1 className="bg-muted text-l rounded border px-5 py-1 font-mono leading-none">
-                            dAIsy
-                          </h1>
-                          <span className="p-2px-2 rounded-full bg-blue-500 px-2 py-0.5 text-xs font-semibold text-white">
-                            BETA
-                          </span>
+                    <div className="flex w-full max-w-3xl flex-col items-center gap-5 px-4">
+                      <div className="flex flex-col items-center gap-3 text-center">
+                        <div className="text-muted-foreground/70 flex items-center">
+                          <GRILogoSVG
+                            width={96}
+                            height={21}
+                          />
                         </div>
+                        <h1 className="font-wordmark text-xl font-medium tracking-[0.05em] uppercase sm:text-2xl">
+                          Contact <span className="text-primary">Enricher</span>
+                        </h1>
+                        <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
+                          Find the people you need to reach and get their email,
+                          phone, and LinkedIn.
+                        </p>
                       </div>
                       <SuggestedPrompts
                         onSelectPrompt={(prompt) => setInput(prompt)}
                         onHoverPrompt={(prompt) => setHoveredPrompt(prompt)}
                       />
-                    </>
+                    </div>
                   )}
 
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
@@ -453,10 +456,10 @@ export function Thread() {
                   <div
                     ref={dropRef}
                     className={cn(
-                      "bg-muted relative z-10 mx-auto mb-8 w-full max-w-3xl rounded-2xl shadow-xs transition-all",
+                      "bg-card/80 focus-within:border-primary/50 focus-within:shadow-primary/10 relative z-10 mx-auto mb-5 w-full max-w-3xl rounded-2xl border shadow-lg shadow-black/20 backdrop-blur transition-all",
                       dragOver
-                        ? "border-primary border-2 border-dotted"
-                        : "border border-solid",
+                        ? "border-primary border-2 border-dashed"
+                        : "border-border border-solid",
                     )}
                   >
                     <form
@@ -484,8 +487,11 @@ export function Thread() {
                             form?.requestSubmit();
                           }
                         }}
-                        placeholder={hoveredPrompt || "Type your message..."}
-                        className="field-sizing-content resize-none border-none bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
+                        placeholder={
+                          hoveredPrompt ||
+                          "Ask, or paste a name, company, or LinkedIn URL…"
+                        }
+                        className="placeholder:text-muted-foreground/70 field-sizing-content resize-none border-none bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
                       <div className="flex items-center gap-6 p-2 pt-2">
@@ -498,7 +504,7 @@ export function Thread() {
                             />
                             <Label
                               htmlFor="render-tool-calls"
-                              className="text-xs text-gray-600"
+                              className="text-muted-foreground text-xs"
                             >
                               Hide Tool Calls
                             </Label>
