@@ -77,7 +77,11 @@ function detectFromFirstSeenState(
 ): SubgraphInfo | null {
   if (!metadata?.firstSeenState) return null;
 
-  const { checkpoint, metadata: stateMetadata, parent_checkpoint } = metadata.firstSeenState;
+  const {
+    checkpoint,
+    metadata: stateMetadata,
+    parent_checkpoint,
+  } = metadata.firstSeenState;
 
   if (checkpoint?.checkpoint_ns && checkpoint.checkpoint_ns !== "") {
     return {
